@@ -1,50 +1,56 @@
 # Enterprise LAN Setup Guide
 
 ## Overview
-This guide covers the essential steps to design and implement a Cisco enterprise LAN infrastructure.
+This guide covers the essential steps to design and implement a Cisco enterprise LAN infrastructure with focus on VLAN management and inter-VLAN routing.
 
 ## Prerequisites
-- Cisco networking equipment (switches, routers)
+- Cisco switches: DIST-SW-01, ACC-SW-01, ACC-SW-02
 - Network management tools
 - Basic networking knowledge
 
 ## Key Components
 
-### 1. Network Design
-- Identify business requirements
-- Plan IP addressing scheme (subnetting)
-- Design hierarchical topology (core, distribution, access layers)
-
-### 2. Switch Configuration
+### 1. VLAN Database Configuration
+Configure the VLAN database on DIST-SW-01:
 ```bash
-# Configure management IP
-interface vlan 1
- ip address 192.168.1.1 255.255.255.0
- no shutdown
+vlan database
+vlan 10 name Management
+vlan 20 name Finance
+vlan 30 name Operations
+exit
 ```
 
-### 3. VLAN Setup
-- Create VLANs for departments
-- Assign ports to VLANs
-- Configure trunk links between switches
+### 2. VTP Mode Setup
+- **DIST-SW-01 (Server)**: `vtp mode server`
+- **ACC-SW-01, ACC-SW-02 (Clients)**: `vtp mode client`
 
-### 4. Routing
-- Configure inter-VLAN routing
-- Set up default gateways
-- Implement dynamic routing protocols (OSPF, EIGRP)
+```bash
+vtp mode server
+vtp domain enterprise-lan
+vtp password cisco123
+```
 
-### 5. Security
-- Enable port security
-- Configure access control lists (ACLs)
-- Implement 802.1X authentication
+### 3. VLAN Tagging
+Configure trunk links with 802.1Q tagging:
+```bash
+interface gi0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+```
 
-### 6. Testing & Validation
-- Verify connectivity between VLANs
-- Test failover mechanisms
-- Monitor network performance
+### 4. Inter-VLAN Routing
+```bash
+interface vlan 10
+ ip address 192.168.10.1 255.255.255.0
+interface vlan 20
+ ip address 192.168.20.1 255.255.255.0
+interface vlan 30
+ ip address 192.168.30.1 255.255.255.0
+```
 
 ## Best Practices
-- Document all configurations
-- Implement redundancy
-- Regular backups and updates
-- Monitor bandwidth usage
+- Document all VLAN assignments
+- Implement redundancy for trunk links
+- Monitor VTP synchronization
+- Regular backups of VLAN database
+
