@@ -23,7 +23,7 @@ This document provides an introduction to cloud computing and Cisco networking s
 - **Cost Optimization**: Multi-cloud strategies for resource efficiency
 - **Employee Mobility**: Secure remote access and BYOD support
 
-## Building Enterprise Network Architecture
+## Building Enterprise Network Architec ture
 
 ### Key Design Principles
 
