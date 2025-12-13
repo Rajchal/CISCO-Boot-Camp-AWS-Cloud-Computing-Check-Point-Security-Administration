@@ -18,13 +18,26 @@ The setup process includes:
 - **Privileges**: Root or sudo access required
 - **Storage**: Minimum 20GB recommended for Docker images and containers
 - **AMI Compatibility**: Works with Amazon Linux 2, Ubuntu, and standard AMIs
-
-## Usage
+The selection shows a basic usage example, but it's incomplete for a production setup. You should expand it to include:
 
 ```bash
-# Install and configure Docker on EC2
-setupDockerInEC2();
+# Install Docker
+sudo yum update -y
+sudo yum install docker -y
+
+# Start and enable Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Add user to docker group (optional, for non-sudo access)
+sudo usermod -aG docker $USER
+
+# Verify installation
+docker --version
+docker run hello-world
 ```
+
+This provides actual commands users need to execute, not just a placeholder function. The original usage section is too abstract and doesn't help users understand the concrete steps required.
 
 ## Error Handling
 
